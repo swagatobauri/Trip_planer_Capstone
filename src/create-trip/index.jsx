@@ -2,14 +2,28 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AI_PROMPT, SelectBudgetOptions, SelectTravelsList } from "@/constants/Options";
 import { chatSession } from "@/servive/AiModel";
+import { db } from "@/servive/firebaseConfig";
+import { doc, setDoc } from "firebase/firestore";
 chatSession
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { FcGoogle } from "react-icons/fc";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 
 const CreateTrip = () => {
   const [destination, setDestination] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [formData, setFormData] = useState({});
+  const [openDialog,setOpenDialog] = useState(false)
 
   const handleInputChange = (name, value) => {
 
@@ -28,7 +42,32 @@ const CreateTrip = () => {
   }, [formData])
 
 
+  const login = useGoogleLogin({
+    onSuccess:(codeResp)=>GetUserProfile(codeResp),
+    onError:(error)=>console.log(error)
+  })
+
+
+  const SaveAiTrip= async(TripData)=>{
+    // Add a new document in collection "cities"
+    
+    const docId = Date.now().toString()
+    await setDoc(doc(db, "AITrips", "LA",docId), {
+      userSelection:formData,
+      tripData:TripData
+});
+  }
+
+
   const OnGenerateTrip= async()=>{
+    
+    const user = localStorage.getItem('user')
+
+    if(!user){
+      setOpenDialog(true)
+      return 
+    }
+
     if(formData?.days>5 && !formData?.location || !formData?.budget || !formData.traveler)
       { 
         toast("Please fill all details")
@@ -48,7 +87,24 @@ const result = await chat.sendMessage(FINAL_PROMPT);
 const text = await result.response.text();
 
 console.log(text);
+SaveAiTrip(text)
 
+  }
+
+
+  const GetUserProfile=(tokenInfo)=>{
+    axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?acess_token=${tokenInfo?.access_token}`,{
+      headers:{
+        Authorization:`Bearer ${tokenInfo?.access_token}`,
+        Accept:"Application/json"
+      }
+    }).then((resp)=>{
+      console.log(resp)
+      localStorage.setItem('user',JSON.stringify(resp.data))
+      setOpenDialog(false)
+      OnGenerateTrip();
+    })
+    
   }
   
 
@@ -164,6 +220,24 @@ console.log(text);
           Generate Trip
         </Button>
       </div>
+
+
+      <Dialog open={openDialog}>
+        
+        <DialogContent>
+          <DialogHeader>
+            
+            <DialogDescription>
+              <img src="/logo.svg" alt="" />
+              <h2 className="font-bold text-lg mt-7">Sign in with google</h2>
+              <p>Sign in to the App with Google authentication secuerly</p>
+
+              <Button className="w-full mt-5 flex gap-4 items-center" onClick={login} ><FcGoogle className="h-7 w-7" />Sign in with Google</Button>
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+
     </div>
   );
 };
