@@ -22,7 +22,7 @@ const Hero = () => {
 
       
       <Link to={"/create-trip"} >
-      <Button>Get Started,it's Free</Button>
+      <Button className="cursor-pointer">Get Started,it's Free</Button>
       </Link>
       
       </div>

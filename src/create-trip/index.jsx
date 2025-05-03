@@ -1,7 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { SelectBudgetOptions, SelectTravelsList } from "@/constants/Options";
+import { AI_PROMPT, SelectBudgetOptions, SelectTravelsList } from "@/constants/Options";
+import { chatSession } from "@/servive/AiModel";
+chatSession
 import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const CreateTrip = () => {
   const [destination, setDestination] = useState("");
@@ -25,11 +28,27 @@ const CreateTrip = () => {
   }, [formData])
 
 
-  const OnGenerateTrip=()=>{
-    if(formData?.days>5)
-      {
-      return 
+  const OnGenerateTrip= async()=>{
+    if(formData?.days>5 && !formData?.location || !formData?.budget || !formData.traveler)
+      { 
+        toast("Please fill all details")
+        return 
     }
+    console.log(formData)
+    const FINAL_PROMPT = AI_PROMPT
+  .replace("{location}", formData?.location)
+  .replace("{days}", formData?.days)
+  .replace("{traveler}", formData?.traveler)
+  .replace("{budget}", formData?.budget);
+
+console.log(FINAL_PROMPT);
+
+const chat = await chatSession(); // ✅ await the chatSession
+const result = await chat.sendMessage(FINAL_PROMPT);
+const text = await result.response.text();
+
+console.log(text);
+
   }
   
 
