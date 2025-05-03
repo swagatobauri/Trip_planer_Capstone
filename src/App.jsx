@@ -3,8 +3,8 @@ import { Button } from './components/ui/button'
 
 const App = () => {
   return (
-    <div>
-      <Button>This is swagato</Button>
+    <div className="flex justify-center">
+      <Button >This is swagato</Button>
     </div>
   )
 }
