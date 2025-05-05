@@ -1,6 +1,31 @@
-import React from "react";
+import { GetPlaceDetails } from "@/servive/GlobalApi";
+import axios from "axios";
+import React, { useEffect } from "react";
 
 const InfoSection = ({ trip }) => {
+
+
+
+  useEffect(() => {
+   trip && GetPlacePhoto()
+  }, [trip])
+  
+
+  const GetPlacePhoto = async (photoReference) => {
+    try {
+      const response = await axios.get(
+        `/api/placephoto?photoreference=${photoReference}`
+      );
+      // Process the successful response here
+      return response.data;
+      console.log(response.data)
+    } catch (error) {
+      // Log the error for debugging
+      console.error("Error fetching place photo:", error);
+      // Handle the error appropriately, e.g., display an error message to the user
+      return null; // Or throw the error if you want to handle it further up the chain
+    }
+  };
   return (
     <div>
       <img
