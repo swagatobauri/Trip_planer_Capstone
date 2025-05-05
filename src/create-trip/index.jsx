@@ -44,7 +44,42 @@ const CreateTrip = () => {
     });
   };
 
-  const destinationsList = ["Paris", "New York", "London", "Tokyo", "Sydney"];
+  const destinationsList = [
+    // International
+    "Paris",
+    "New York",
+    "London",
+    "Tokyo",
+    "Sydney",
+    "Rome",
+    "Dubai",
+    "Barcelona",
+    "Bali",
+    "Istanbul",
+    "Singapore",
+    "Bangkok",
+    "Amsterdam",
+    "Los Angeles",
+    "Venice",
+  
+    // Indian
+    "Delhi",
+    "Mumbai",
+    "Jaipur",
+    "Goa",
+    "Kerala",
+    "Ladakh",
+    "Varanasi",
+    "Agra",
+    "Rishikesh",
+    "Udaipur",
+    "Mysore",
+    "Shillong",
+    "Ooty",
+    "Kolkata",
+    "Amritsar"
+  ];
+  
 
   useEffect(() => {
     console.log(formData);
@@ -80,7 +115,7 @@ const CreateTrip = () => {
     }
 
     if (
-      (formData?.days > 5 && !formData?.location) ||
+      (formData?.days < 5 && !formData?.location) ||
       !formData?.budget ||
       !formData.traveler
     ) {
@@ -191,8 +226,11 @@ const CreateTrip = () => {
           </h2>
           <input
             type="number"
+            min="1"
+            max="5"
+            // step="1"
             className="border px-4 py-2 rounded-lg"
-            placeholder="Ex. 3"
+            placeholder="3"
             onChange={(e) => handleInputChange("days", e.target.value)}
           />
         </div>

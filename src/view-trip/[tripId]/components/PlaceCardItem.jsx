@@ -8,14 +8,15 @@ const PlaceCardItem = ({ place }) => {
     <Link
       to={
         "https://www.google.com/maps/search/?api=1&query=" +
-        place.placelName
+        place.placeName
       }
       target="_blank"
     >
-      <div className="border rounded-xl p-3 mt-2 flex gap-5 hover:scale-110 border-violet-200 shadow-2xl transition-all  ">
+      <div className="border rounded-xl p-3 mt-2 flex gap-5 hover:scale-110 border-violet-200 shadow-2xl transition-all">
         <img
-          src="place.[Place Image Url]"
+          src={place["Place Image Url"] || "/places.jpg"}
           className="w-[130px] h-[130px] rounded-xl"
+          alt={place.placeName}
         />
 
         <div>

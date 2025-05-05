@@ -76,7 +76,51 @@ export const SelectBudgetOptions =[
     }
   ];
 
-export const AI_PROMPT = `Generate Travel Plan for Location : {location}, for {days} days for {traveler} traveler with a {budget} budget , Give me a Hotels options list with
-HotelName, Hotel address, Price, hotel image url, geo coordinates, rating, descriptions and suggest itinerary with placeName, Place
-Details, Place Image Url, Geo Coordinates, ticket Pricing, Time travel each of the location for {days} days with each day plan with best
-time to visit in JSON format.`
+  export const AI_PROMPT = `You are a travel assistant. Generate a detailed travel plan for:
+  - Location: {location}
+  - Duration: {days} days
+  - Number of travelers: {traveler}
+  - Budget type: {budget}
+  
+  Please respond in **valid JSON format** only, without any extra commentary or explanation.
+  
+  Structure your response as follows:
+  {
+    "tripData": {
+      "location": "{location}",
+      "travelers": {traveler},
+      "days": {days},
+      "budget": "{budget}",
+      "hotels": [
+        {
+          "HotelName": "string",
+          "Hotel address": "string",
+          "Price": "string",
+          "hotel image url": "string",
+          "geo coordinates": "string",
+          "rating": "string",
+          "descriptions": "string"
+        },
+        ...
+      ],
+      "itinerary": [
+        {
+          "day": 1,
+          "plan": [
+            {
+              "placeName": "string",
+              "Place Details": "string",
+              "Place Image Url": "string",
+              "Geo Coordinates": "string",
+              "ticket Pricing": "string",
+              "Time travel each of the location": "string"
+            },
+            ...
+          ]
+        },
+        ...
+      ]
+    }
+  }
+  `;
+  
