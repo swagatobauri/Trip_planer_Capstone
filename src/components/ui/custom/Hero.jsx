@@ -1,19 +1,20 @@
 import React from "react";
 import { TextHoverEffect } from "../text-hover-effect";
-import { HelpingHand } from "lucide-react";
+
 import { Button } from "../button";
 import { Link } from "react-router-dom";
+
 
 const Hero = () => {
   return (
     <div>
       <div>
-        <TextHoverEffect text="SEX" duration={0} />
+        <TextHoverEffect text="Let's GO" duration={0} />
       </div>
 
       <div>
         <p className="text-xl text-gray-500 text-center">
-          Your <span className="text-red-500">SEX</span> trip planner
+          Your <span className="text-red-500">AI</span> trip planner
         </p>
       </div>
 
@@ -24,8 +25,9 @@ const Hero = () => {
       <Link to={"/create-trip"} >
       <Button className="cursor-pointer">Get Started,it's Free</Button>
       </Link>
-      
       </div>
+
+
       
     </div>
   );

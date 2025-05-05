@@ -14,7 +14,7 @@ const Hotels = ({ trip }) => {
                   key={hotel.id || hotel.HotelName} // Use hotel.id if available, else fallback to hotel.HotelName
                 >
                   <div className='hover:scale-110 transition-all cursor-pointer'>
-                      <img src={hotel["Hotel Image Url"] || "/placeholder.jpg"} className='rounded-xl shadow-2xl' alt={hotel.HotelName}/>
+                      <img src={hotel["Hotel Image Url"] || "/hotels.jpg"} className='rounded-xl shadow-2xl' alt={hotel.HotelName}/>
 
                       <div className='my-3 flex flex-col gap-2'>
                           <h2 className='font-medium'>{hotel.HotelName}</h2>

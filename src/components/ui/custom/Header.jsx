@@ -54,7 +54,7 @@ const Header = () => {
   };
 
   return (
-    <div className="p-2 shadow-sm flex justify-between items-center px-5">
+    <div className="p-2 shadow-lg flex justify-between items-center px-5 bg-teal-100 sticky">
       <img src="/logo.svg" alt="" />
       <div>{user ? 
         <div>
