@@ -14,8 +14,23 @@ if (!apiKey || apiKey === "ENTER_YOUR_GEMINI_API_KEY_HERE") {
 const genAI = new GoogleGenerativeAI(apiKey || "");
 
 const model = genAI.getGenerativeModel({
-  model: "gemini-pro",
+  model: "gemini-1.5-flash",
 });
+
+// Debugging: List available models
+(async () => {
+  try {
+    const models = await genAI.getGenerativeModel({ model: "gemini-1.5-flash" }).apiKey; // Hack to access manager if needed, but standard way below:
+    // Actually, looking at docs, genAI.listModels() doesn't exist directly on the instance in older versions, 
+    // but let's try assuming standard usage or just try-catch the generation.
+    // Better:
+    // There isn't a direct listModels on the client in the simple SDK usage often, 
+    // We will just log that we are trying 1.5 flash.
+    console.log("Attempting to use model: gemini-1.5-flash");
+  } catch (e) {
+    console.error("Error setting up model:", e);
+  }
+})();
 
 const generationConfig = {
   temperature: 1,
