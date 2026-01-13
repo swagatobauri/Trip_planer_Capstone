@@ -1,4 +1,4 @@
-import { GetPlaceDetails } from "@/servive/GlobalApi";
+import { GetPlaceDetails } from "@/service/GlobalApi";
 import axios from "axios";
 import React, { useEffect } from "react";
 
@@ -7,9 +7,9 @@ const InfoSection = ({ trip }) => {
 
 
   useEffect(() => {
-   trip && GetPlacePhoto()
+    trip && GetPlacePhoto()
   }, [trip])
-  
+
 
   const GetPlacePhoto = async (photoReference) => {
     try {
@@ -18,7 +18,6 @@ const InfoSection = ({ trip }) => {
       );
       // Process the successful response here
       return response.data;
-      console.log(response.data)
     } catch (error) {
       // Log the error for debugging
       console.error("Error fetching place photo:", error);
@@ -44,7 +43,7 @@ const InfoSection = ({ trip }) => {
             Budget: {trip?.userSelection?.budget}
           </h2>
           <h2 className="p-1 px-3 bg-gray-200 rounded-full text-gray-500 text-xs md:text-md">
-            No. of Traveler: {trip?.userSelection?.traveler}
+            No. of Travelers: {trip?.userSelection?.traveler}
           </h2>
         </div>
       </div>

@@ -9,28 +9,41 @@ import Header from './components/ui/custom/Header'
 import { Toaster } from 'sonner'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import Viewtrip from './view-trip/[tripId]/index.jsx'
+import { Outlet } from 'react-router-dom'
+
+const Layout = () => {
+  return (
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_AUTH_CLIENT_ID}>
+      <Header />
+      <Toaster />
+      <Outlet />
+    </GoogleOAuthProvider>
+  )
+}
 
 const router = createBrowserRouter([
   {
-    path:'/',
-    element:<App/>
-  },
-  {
-    path:'/create-trip',
-    element:<CreateTrip/>
-  },
-  {
-    path:'/view-trip/:tripId',
-    element:<Viewtrip/>
+    path: '/',
+    element: <Layout />,
+    children: [
+      {
+        path: '/',
+        element: <App />
+      },
+      {
+        path: '/create-trip',
+        element: <CreateTrip />
+      },
+      {
+        path: '/view-trip/:tripId',
+        element: <Viewtrip />
+      }
+    ]
   }
 ])
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_AUTH_CLIENT_ID}>
-    <Header/>
-    <Toaster />
     <RouterProvider router={router} />
-    </GoogleOAuthProvider>
   </StrictMode>,
 )

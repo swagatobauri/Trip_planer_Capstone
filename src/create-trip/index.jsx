@@ -5,10 +5,9 @@ import {
   SelectBudgetOptions,
   SelectTravelsList,
 } from "@/constants/Options";
-import { chatSession } from "@/servive/AiModel";
-import { db } from "@/servive/firebaseConfig";
+import { chatSession } from "@/service/AiModel";
+import { db } from "@/service/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
-chatSession;
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import {
@@ -24,6 +23,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import { HiOutlineMap } from "react-icons/hi2";
 
 
 const CreateTrip = () => {
@@ -35,7 +35,7 @@ const CreateTrip = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const navigate=useNavigate()
+  const navigate = useNavigate()
 
   const handleInputChange = (name, value) => {
     setFormData({
@@ -61,7 +61,7 @@ const CreateTrip = () => {
     "Amsterdam",
     "Los Angeles",
     "Venice",
-  
+
     // Indian
     "Delhi",
     "Mumbai",
@@ -79,7 +79,7 @@ const CreateTrip = () => {
     "Kolkata",
     "Amritsar"
   ];
-  
+
 
   useEffect(() => {
     console.log(formData);
@@ -103,7 +103,7 @@ const CreateTrip = () => {
       id: docId,
     });
     setLoading(false);
-    navigate('/view-trip/'+docId)
+    navigate('/view-trip/' + docId)
   };
 
   const OnGenerateTrip = async () => {
@@ -144,7 +144,7 @@ const CreateTrip = () => {
   const GetUserProfile = (tokenInfo) => {
     axios
       .get(
-        `https://www.googleapis.com/oauth2/v1/userinfo?acess_token=${tokenInfo?.access_token}`,
+        `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokenInfo?.access_token}`,
         {
           headers: {
             Authorization: `Bearer ${tokenInfo?.access_token}`,
@@ -243,9 +243,8 @@ const CreateTrip = () => {
           {SelectBudgetOptions.map((item, idx) => (
             <div
               key={idx}
-              className={`p-4 border rounded-lg hover:shadow-lg ${
-                formData?.budget == item.title && "shadow-lg border-black"
-              }`}
+              className={`p-4 border rounded-lg hover:shadow-lg ${formData?.budget == item.title && "shadow-lg border-black"
+                }`}
               onClick={() => handleInputChange("budget", item.title)}
             >
               <h2 className="text-4xl">{item.icon}</h2>
@@ -265,10 +264,9 @@ const CreateTrip = () => {
           {SelectTravelsList.map((item, idx) => (
             <div
               key={idx}
-              className={`p-4 border rounded-lg hover:shadow-lg ${
-                formData?.traveler == item.peopleCount &&
+              className={`p-4 border rounded-lg hover:shadow-lg ${formData?.traveler == item.peopleCount &&
                 "shadow-lg border-black"
-              }`}
+                }`}
               onClick={() => handleInputChange("traveler", item.peopleCount)}
             >
               <h2 className="text-4xl">{item.icon}</h2>
@@ -294,9 +292,14 @@ const CreateTrip = () => {
         <DialogContent>
           <DialogHeader>
             <DialogDescription>
-              <img src="/logo.svg" alt="" />
+              <div className="flex items-center gap-2 mb-4">
+                <HiOutlineMap className="text-3xl text-red-500" />
+                <h2 className="font-extrabold text-2xl tracking-tighter text-gray-800">
+                  Trip <span className="text-red-500">Planner</span>
+                </h2>
+              </div>
               <h2 className="font-bold text-lg mt-7">Sign in with google</h2>
-              <p>Sign in to the App with Google authentication secuerly</p>
+              <p>Sign in to the App with Google authentication securely</p>
 
               <Button
                 disabled={loading}

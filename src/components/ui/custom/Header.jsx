@@ -17,11 +17,13 @@ import {
 } from "@/components/ui/dialog";
 import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
+import { HiOutlineMap } from "react-icons/hi2";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const [openDialog, setOpenDialog] = useState(false);
-    const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
 
 
@@ -37,7 +39,7 @@ const Header = () => {
   const GetUserProfile = (tokenInfo) => {
     axios
       .get(
-        `https://www.googleapis.com/oauth2/v1/userinfo?acess_token=${tokenInfo?.access_token}`,
+        `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokenInfo?.access_token}`,
         {
           headers: {
             Authorization: `Bearer ${tokenInfo?.access_token}`,
@@ -49,41 +51,53 @@ const Header = () => {
         console.log(resp);
         localStorage.setItem("user", JSON.stringify(resp.data));
         setOpenDialog(false);
-        window.location.reload
+        window.location.reload()
       });
   };
 
   return (
     <div className="p-2 shadow-lg flex justify-between items-center px-5 bg-teal-100 sticky">
-      <img src="/logo.svg" alt="" />
-      <div>{user ? 
+      <Link to={'/'}>
+        <div className="flex items-center gap-2 cursor-pointer transition-all">
+          <HiOutlineMap className="text-3xl text-red-500" />
+          <h2 className="font-extrabold text-2xl tracking-tighter text-gray-800">
+            Trip <span className="text-red-500">Planner</span>
+          </h2>
+        </div>
+      </Link>
+      <div>{user ?
         <div>
-          
+
           <Popover>
             <PopoverTrigger>
-            <img  src={user?.picture} className="h-[35px] w-[35px] rounded-full cursor-pointer"/>
+              <img src={user?.picture} className="h-[35px] w-[35px] rounded-full cursor-pointer" />
             </PopoverTrigger>
             <PopoverContent>
-              <h2 className="cursor-pointer" 
-                onClick={()=>{
+              <h2 className="cursor-pointer"
+                onClick={() => {
                   googleLogout();
                   localStorage.clear();
                   window.location.reload();
                 }}
-                >Logout</h2>
+              >Logout</h2>
             </PopoverContent>
           </Popover>
 
-      </div> : <Button onClick={()=>setOpenDialog(true)}>Sign in </Button>}</div>
+        </div> : <Button onClick={() => setOpenDialog(true)}>Sign in </Button>}</div>
 
 
       <Dialog open={openDialog}>
         <DialogContent>
           <DialogHeader>
             <DialogDescription>
-              <img src="/logo.svg" alt="" />
+              <div className="flex items-center gap-2 mb-4">
+                <HiOutlineMap className="text-3xl text-red-500" />
+                <h2 className="font-extrabold text-2xl tracking-tighter text-gray-800">
+                  Trip <span className="text-red-500">Planner</span>
+                </h2>
+              </div>
               <h2 className="font-bold text-lg mt-7">Sign in with google</h2>
-              <p>Sign in to the App with Google authentication secuerly</p>
+              <p>Sign in to the App with Google authentication securely</p>
 
               <Button
                 disabled={loading}
