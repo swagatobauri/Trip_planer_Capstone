@@ -14,7 +14,7 @@ if (!apiKey || apiKey === "ENTER_YOUR_GEMINI_API_KEY_HERE") {
 const genAI = new GoogleGenerativeAI(apiKey || "");
 
 const model = genAI.getGenerativeModel({
-  model: "gemini-pro",
+  model: "gemini-1.5-flash",
 });
 
 const generationConfig = {
@@ -22,7 +22,6 @@ const generationConfig = {
   topP: 0.95,
   topK: 64,
   maxOutputTokens: 8192,
-  responseMimeType: "application/json",
 };
 
 export async function chatSession() {
